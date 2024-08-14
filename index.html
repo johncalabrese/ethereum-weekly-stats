@@ -9,9 +9,12 @@
         .chart-container { background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 30px; padding: 20px; }
         h2 { font-size: 24px; margin-bottom: 5px; }
         h3 { font-size: 18px; margin-top: 0; color: #666; }
-        .bar { fill: #8884d8; }
-        .bar-label { font-size: 12px; }
+        .bar { fill: #8884d8; cursor: pointer; }
+        .bar:hover { fill: #9999ff; }
+        .bar-label { font-size: 12px; cursor: pointer; }
+        .bar-label:hover { text-decoration: underline; }
         .axis-label { font-size: 14px; }
+        a { color: inherit; text-decoration: none; }
     </style>
 </head>
 <body>
@@ -28,49 +31,49 @@
 
     <script>
         const growthData = [
-            { name: "District0x: DNT T...04ea", value: 744.18 },
-            { name: "Contract Address ...4953", value: 481.50 },
-            { name: "Reef Finance: REE...5acf", value: 303.91 },
-            { name: "Akita Inu: AKITA ...23e6", value: 251.06 },
-            { name: "KABOSU (3b3a)", value: 209.65 },
-            { name: "Loom Network: LOO...f75d", value: 183.47 },
-            { name: "Fei Protocol: Tribe (212b)", value: 158.06 },
-            { name: "GROK 2.0: GROK2.0...f224", value: 139.31 },
-            { name: "Flying Avocado Ca...8661", value: 138.95 },
-            { name: "Contract Address ...3aff", value: 132.24 },
-            { name: "Voyager: VGX Token (3e3d)", value: 128.32 },
-            { name: "Vow: VOW Token (46fb)", value: 107.11 },
-            { name: "Base: Base, Intro...8792", value: 92.22 },
-            { name: "VITALIKL2CHAIN: $...77aa", value: 86.89 },
-            { name: "Contract Address ...faf2", value: 65.42 },
-            { name: "Contract (2964)", value: 58.10 },
-            { name: "Atlas Navi: NAVI ...2bf1", value: 47.00 },
-            { name: "Aethir: ATH Token (226b)", value: 35.12 },
-            { name: "Fight2Maga: FIGHT...1ab6", value: 19.64 },
-            { name: "ENS: Base Registr...ea85", value: 13.33 }
+            { name: "District0x: DNT T...04ea", value: 744.18, address: "0x0abdace70d3790235af448c88547603b945604ea" },
+            { name: "Contract Address ...4953", value: 481.50, address: "0x39b7142b699563129b065c7ca365b1f451064953" },
+            { name: "Reef Finance: REE...5acf", value: 303.91, address: "0xfe3e6a25e6b192a42a44ecddcd13796471735acf" },
+            { name: "Akita Inu: AKITA ...23e6", value: 251.06, address: "0x3301ee63fb29f863f2333bd4466acb46cd8323e6" },
+            { name: "KABOSU (3b3a)", value: 209.65, address: "0x180000dda70eb7fb7f3e10e52e88ce88f46e3b3a" },
+            { name: "Loom Network: LOO...f75d", value: 183.47, address: "0x42476f744292107e34519f9c357927074ea3f75d" },
+            { name: "Fei Protocol: Tribe (212b)", value: 158.06, address: "0xc7283b66eb1eb5fb86327f08e1b5816b0720212b" },
+            { name: "GROK 2.0: GROK2.0...f224", value: 139.31, address: "0x87d907568a0761ea45d2917e324557920668f224" },
+            { name: "Flying Avocado Ca...8661", value: 138.95, address: "0x1a3a8cf347b2bf5890d3d6a1b981c4f4432c8661" },
+            { name: "Contract Address ...3aff", value: 132.24, address: "0xfb0b0c76e7442a08819b0f64e24b4d3032eb3aff" },
+            { name: "Voyager: VGX Token (3e3d)", value: 128.32, address: "0x3c4b6e6e1ea3d4863700d7f76b36b7f3d3f13e3d" },
+            { name: "Vow: VOW Token (46fb)", value: 107.11, address: "0x1bbf25e71ec48b84d773809b4ba55b6f4be946fb" },
+            { name: "Base: Base, Intro...8792", value: 92.22, address: "0xd4307e0acd12cf46fd6cf93bc264f5d5d1598792" },
+            { name: "VITALIKL2CHAIN: $...77aa", value: 86.89, address: "0x2a5fa016ffb20c70e2ef36058c08547f344677aa" },
+            { name: "Contract Address ...faf2", value: 65.42, address: "0xfa51e48628382bde865e4b7884f8d95e1440faf2" },
+            { name: "Contract (2964)", value: 58.10, address: "0xfb9f7055d6f388318b3fc45b0a1cef8ac72a2964" },
+            { name: "Atlas Navi: NAVI ...2bf1", value: 47.00, address: "0xfc1c93a2507975e98b9d0e9260ded61a00152bf1" },
+            { name: "Aethir: ATH Token (226b)", value: 35.12, address: "0xbe0ed4138121ecfc5c0e56b40517da27e6c5226b" },
+            { name: "Fight2Maga: FIGHT...1ab6", value: 19.64, address: "0x8802269d1283cdb2a5a329649e5cb4cdcee91ab6" },
+            { name: "ENS: Base Registr...ea85", value: 13.33, address: "0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85" }
         ];
 
         const transactionsData = [
-            { name: "KABOSU (3b3a)", value: 20028 },
-            { name: "Vow: VOW Token (46fb)", value: 15817 },
-            { name: "Aethir: ATH Token (226b)", value: 8990 },
-            { name: "Fight2Maga: FIGHT...1ab6", value: 8722 },
-            { name: "MagaHat: MAGA Token (d7c5)", value: 8364 },
-            { name: "ENS: Base Registr...ea85", value: 4897 },
-            { name: "Contract Address ...4953", value: 3768 },
-            { name: "Contract Address ...faf2", value: 3376 },
-            { name: "Contract (2964)", value: 2971 },
-            { name: "District0x: DNT T...04ea", value: 2873 },
-            { name: "Contract Address ...3aff", value: 2032 },
-            { name: "GROK 2.0: GROK2.0...f224", value: 2022 },
-            { name: "Flying Avocado Ca...8661", value: 1897 },
-            { name: "PowerPool.Finance...dca1", value: 1671 },
-            { name: "Reef Finance: REE...5acf", value: 1599 },
-            { name: "VITALIKL2CHAIN: $...77aa", value: 1596 },
-            { name: "ESG Financial: ES...b9a9", value: 1540 },
-            { name: "Base: Base, Intro...8792", value: 1438 },
-            { name: "Voyager: VGX Token (3e3d)", value: 1114 },
-            { name: "GamerCoin: GHX Token (387d)", value: 1064 }
+            { name: "KABOSU (3b3a)", value: 20028, address: "0x180000dda70eb7fb7f3e10e52e88ce88f46e3b3a" },
+            { name: "Vow: VOW Token (46fb)", value: 15817, address: "0x1bbf25e71ec48b84d773809b4ba55b6f4be946fb" },
+            { name: "Aethir: ATH Token (226b)", value: 8990, address: "0xbe0ed4138121ecfc5c0e56b40517da27e6c5226b" },
+            { name: "Fight2Maga: FIGHT...1ab6", value: 8722, address: "0x8802269d1283cdb2a5a329649e5cb4cdcee91ab6" },
+            { name: "MagaHat: MAGA Token (d7c5)", value: 8364, address: "0xd29da236dd4aac627346e1bba06a619e8c22d7c5" },
+            { name: "ENS: Base Registr...ea85", value: 4897, address: "0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85" },
+            { name: "Contract Address ...4953", value: 3768, address: "0x39b7142b699563129b065c7ca365b1f451064953" },
+            { name: "Contract Address ...faf2", value: 3376, address: "0xfa51e48628382bde865e4b7884f8d95e1440faf2" },
+            { name: "Contract (2964)", value: 2971, address: "0xfb9f7055d6f388318b3fc45b0a1cef8ac72a2964" },
+            { name: "District0x: DNT T...04ea", value: 2873, address: "0x0abdace70d3790235af448c88547603b945604ea" },
+            { name: "Contract Address ...3aff", value: 2032, address: "0xfb0b0c76e7442a08819b0f64e24b4d3032eb3aff" },
+            { name: "GROK 2.0: GROK2.0...f224", value: 2022, address: "0x87d907568a0761ea45d2917e324557920668f224" },
+            { name: "Flying Avocado Ca...8661", value: 1897, address: "0x1a3a8cf347b2bf5890d3d6a1b981c4f4432c8661" },
+            { name: "PowerPool.Finance...dca1", value: 1671, address: "0x38e4adb44ef08f22f5b5b76a8f0c2d0dcbe7dca1" },
+            { name: "Reef Finance: REE...5acf", value: 1599, address: "0xfe3e6a25e6b192a42a44ecddcd13796471735acf" },
+            { name: "VITALIKL2CHAIN: $...77aa", value: 1596, address: "0x2a5fa016ffb20c70e2ef36058c08547f344677aa" },
+            { name: "ESG Financial: ES...b9a9", value: 1540, address: "0x20cd2e7ec8f5d8b337fe46a4f565ccef1561b9a9" },
+            { name: "Base: Base, Intro...8792", value: 1438, address: "0xd4307e0acd12cf46fd6cf93bc264f5d5d1598792" },
+            { name: "Voyager: VGX Token (3e3d)", value: 1114, address: "0x3c4b6e6e1ea3d4863700d7f76b36b7f3d3f13e3d" },
+            { name: "GamerCoin: GHX Token (387d)", value: 1064, address: "0x728f30fa2f100742c7949d1961804fa8e0b1387d" }
         ];
 
         function createChart(svgId, data, valuePrefix = "") {
@@ -113,7 +116,12 @@
                 value.textContent = valuePrefix + d.value.toLocaleString();
                 barGroup.appendChild(value);
 
-                svg.appendChild(barGroup);
+                const link = document.createElementNS("http://www.w3.org/2000/svg", "a");
+                link.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", `https://etherscan.io/token/${d.address}`);
+                link.setAttribute("target", "_blank");
+                link.appendChild(barGroup);
+
+                svg.appendChild(link);
             });
 
             // X-axis
