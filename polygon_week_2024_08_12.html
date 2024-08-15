@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polygon Weekly Top 20 Tokens - Week Ending August 12, 2024</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .chart-container { background-color: white; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 30px; padding: 20px; }
+        h1, h2 { color: #8247e5; }  /* Polygon's primary color */
+        h3 { font-size: 18px; margin-top: 0; color: #666; }
+        .bar { fill: #8247e5; cursor: pointer; }
+        .bar:hover { fill: #9b74e6; }
+        .bar-label { font-size: 12px; cursor: pointer; }
+        .bar-label:hover { text-decoration: underline; }
+        .axis-label { font-size: 14px; }
+        a { color: inherit; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <h1>Polygon Weekly Top 20 Tokens - Week Ending August 12, 2024</h1>
+    <a href="index.html">Back to Index</a>
+    
+    <div class="chart-container">
+        <h2>Top 20 Tokens by Growth Percentage</h2>
+        <svg id="growthChart" width="760" height="600"></svg>
+    </div>
+    
+    <div class="chart-container">
+        <h2>Top 20 Tokens by Total Transactions</h2>
+        <svg id="transactionsChart" width="760" height="600"></svg>
+    </div>
+
+    <script>
+        const growthData = [
+            { name: "MAGA Token (3a9a)", value: 204.71, address: "0x77cbe743156c370109591863008ef474c36f3a9a" },
+            { name: "NSDXToken (bfc6)", value: 57.31, address: "0xe8d17b127ba8b9899a160d9a07b69bca8e08bfc6" },
+            { name: "Merkly Hyperlane FT (df56)", value: 53.91, address: "0x574e69c50e7d13b3d1b364bf0d48285a5ae2df56" },
+            { name: "COW-CHAR-NFT (85d3)", value: 49.54, address: "0x7be701f5e4f812724cd5ff5c78dc2a8e51a585d3" },
+            { name: "XERC20 (33ad)", value: 36.94, address: "0xdcb72ae4d5dc6ae274461d57e65db8d50d0a33ad" },
+            { name: "Algebra: ALGB Token (9dd6)", value: 35.71, address: "0x0169ec1f8f639b32eec6d923e24c2a2ff45b9dd6" },
+            { name: "Versus-X: VSX Token (cf79)", value: 33.93, address: "0xb8d5f5f236c24e09c7f55eec313818742ac4cf79" },
+            { name: "Naka: NKT Token (0fb0)", value: 31.36, address: "0x5dd1cbf142f4b896d18af835c1734363b0d50fb0" },
+            { name: "TokenCLCH (71b4)", value: 23.12, address: "0xf6c907e2b8bf7c606682e1d376d2472def3471b4" },
+            { name: "SweetPackableToken (42ef)", value: 21.51, address: "0x4886ad43e06ac23d510566da23af67be191042ef" },
+            { name: "Defiworld Finance...4b0f", value: 17.04, address: "0x96f0a7167ab7ba6e59ffb68707c9d1b049524b0f" },
+            { name: "Vigorus (28fc)", value: 14.16, address: "0xcc1b9517460d8ae86fe576f614d091fca65a28fc" },
+            { name: "UUPSProxy (afdf)", value: 12.61, address: "0x58e4d14ccddd1e993e6368a8c5eaa290c95cafdf" },
+            { name: "Laro (7a91)", value: 12.39, address: "0x03b9ac4602b587f824e72d6f41c3eb8271037a91" },
+            { name: "Contract Address ...44c0", value: 12.94, address: "0xa8cc4e745a5e6f178511935a713aa17b1a5144c0" },
+            { name: "SweetPackableToken (70b2)", value: 11.63, address: "0xca28251acf27e55fdbfbf997397a28db122e70b2" },
+            { name: "Metavault: MVX Token (0ed7)", value: 10.78, address: "0x2760e46d9bb43dafcbecaad1f64b93207f9f0ed7" },
+            { name: "BoomLand: BOOM Token (6d60)", value: 9.50, address: "0x51f005d61426e537e6afee52f9b1ab0e63046d60" },
+            { name: "Carrieverse: CVTX...f440", value: 8.85, address: "0x40f97ec376ac1c503e755433bf57f21e3a49f440" },
+            { name: "COW-PET-NFT (5769)", value: 8.18, address: "0xb5d8cda05619a473098f2d34794dbb69f3615769" }
+        ];
+
+        const transactionsData = [
+            { name: "Chainlink: LINK T...e0f1", value: 50019, address: "0xb0897686c545045afc77cf20ec7a532e3120e0f1" },
+            { name: "Cela Token (1afe)", value: 77107, address: "0x65f98aa41afac485730cc7ed9a55782de0451afe" },
+            { name: "COW-PET-NFT (5769)", value: 9918, address: "0xb5d8cda05619a473098f2d34794dbb69f3615769" },
+            { name: "RetaFi: RTK Token (5aa4)", value: 9930, address: "0x0052074d3eb1429f39e5ea529b54a650c21f5aa4" },
+            { name: "DNA Racing: $DEZ ...5f1e", value: 8079, address: "0xdc4f4ed9872571d5ec8986a502a0d88f3a175f1e" },
+            { name: "Contract Address ...8bff", value: 7151, address: "0x979141ed998b3a01403a91228390e05339208bff" },
+            { name: "Algebra: ALGB Token (9dd6)", value: 5581, address: "0x0169ec1f8f639b32eec6d923e24c2a2ff45b9dd6" },
+            { name: "UChildERC20Proxy (a1d0)", value: 4528, address: "0x04f177fcacf6fb4d2f95d41d7d3fee8e565ca1d0" },
+            { name: "Unstoppable Domai...9e9f", value: 3890, address: "0xa9a6a3626993d487d2dbda3173cf58ca1a9d9e9f" },
+            { name: "Merkly Hyperlane FT (df56)", value: 3298, address: "0x574e69c50e7d13b3d1b364bf0d48285a5ae2df56" },
+            { name: "Voxies: VOXIES Token (0f59)", value: 2658, address: "0xfbe3ab0cbfbd17d06bdd73aa3f55aaf038720f59" },
+            { name: "Versus-X: VSX Token (cf79)", value: 2673, address: "0xb8d5f5f236c24e09c7f55eec313818742ac4cf79" },
+            { name: "CoinToken (75dc)", value: 2473, address: "0x285e07db910520bcd303b50fb691c1cf3e9d75dc" },
+            { name: "MAGA Token (3a9a)", value: 2165, address: "0x77cbe743156c370109591863008ef474c36f3a9a" },
+            { name: "NSDXToken (bfc6)", value: 2131, address: "0xe8d17b127ba8b9899a160d9a07b69bca8e08bfc6" },
+            { name: "SweetPackableToken (42ef)", value: 2200, address: "0x4886ad43e06ac23d510566da23af67be191042ef" },
+            { name: "BitCone: CONE Token (0f7c)", value: 2097, address: "0xba777ae3a3c91fcd83ef85bfe65410592bdd0f7c" },
+            { name: "Ginto (61db)", value: 1722, address: "0xe87a545e6c248edddb57e359f8007d3b81d361db" },
+            { name: "RumToken (0fc3)", value: 1668, address: "0x14e5386f47466a463f85d151653e1736c0c50fc3" },
+            { name: "Retro: RETRO Token (d8eb)", value: 1610, address: "0xbfa35599c7aebb0dace9b5aa3ca5f2a79624d8eb" }
+        ];
+
+        function createChart(svgId, data, valuePrefix = "") {
+            const svg = document.getElementById(svgId);
+            const width = 760;
+            const height = 600;
+            const margin = { top: 20, right: 30, bottom: 40, left: 200 };
+            const chartWidth = width - margin.left - margin.right;
+            const chartHeight = height - margin.top - margin.bottom;
+
+            const maxValue = Math.max(...data.map(d => d.value));
+            const yScale = (i) => margin.top + (i * (chartHeight / data.length));
+            const xScale = (val) => (val / maxValue) * chartWidth;
+
+            data.forEach((d, i) => {
+                const barGroup = document.createElementNS("http://www.w3.org/2000/svg", "g");
+                
+                const bar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+                bar.setAttribute("x", margin.left);
+                bar.setAttribute("y", yScale(i));
+                bar.setAttribute("width", xScale(d.value));
+                bar.setAttribute("height", chartHeight / data.length - 5);
+                bar.setAttribute("class", "bar");
+                barGroup.appendChild(bar);
+
+                const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                label.setAttribute("x", margin.left - 5);
+                label.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+                label.setAttribute("text-anchor", "end");
+                label.setAttribute("alignment-baseline", "middle");
+                label.setAttribute("class", "bar-label");
+                label.textContent = d.name;
+                barGroup.appendChild(label);
+
+                const value = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                value.setAttribute("x", margin.left + xScale(d.value) + 5);
+                value.setAttribute("y", yScale(i) + (chartHeight / data.length / 2));
+                value.setAttribute("alignment-baseline", "middle");
+                value.setAttribute("class", "bar-label");
+                value.textContent = valuePrefix + d.value.toLocaleString();
+                barGroup.appendChild(value);
+
+                const link = document.createElementNS("http://www.w3.org/2000/svg", "a");
+                link.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", `https://polygonscan.com/token/${d.address}`);
+                link.setAttribute("target", "_blank");
+                link.appendChild(barGroup);
+
+                svg.appendChild(link);
+            });
+
+            // X-axis
+            const xAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            xAxis.setAttribute("x1", margin.left);
+            xAxis.setAttribute("y1", height - margin.bottom);
+            xAxis.setAttribute("x2", width - margin.right);
+            xAxis.setAttribute("y2", height - margin.bottom);
+            xAxis.setAttribute("stroke", "black");
+            svg.appendChild(xAxis);
+
+            // Y-axis
+            const yAxis = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            yAxis.setAttribute("x1", margin.left);
+            yAxis.setAttribute("y1", margin.top);
+            yAxis.setAttribute("x2", margin.left);
+            yAxis.setAttribute("y2", height - margin.bottom);
+            yAxis.setAttribute("stroke", "black");
+            svg.appendChild(yAxis);
+        }
+
+        createChart("growthChart", growthData, "+");
+        createChart("transactionsChart", transactionsData);
+    </script>
+</body>
+</html>
